@@ -1,0 +1,24 @@
+<div class="essay-editor">
+  <div class="editor-header">
+    <h2>Essay Editor</h2>
+    <p class="instruction-text">Write or paste your essay below. Sentences that match your flagged text will be highlighted in real-time.</p>
+  </div>
+  
+  <div class="editor-container">
+    <div 
+      #textEditor
+      class="text-editor"
+      contenteditable="true"
+      (input)="onTextChange($event)"
+      (paste)="onPaste($event)"
+      (keydown)="onKeyDown($event)"
+      [attr.data-placeholder]="essayText.length === 0 ? 'Start typing your essay here...' : null">
+    </div>
+  </div>
+  
+  <div class="editor-stats" *ngIf="essayText.length > 0">
+    <span class="char-count">{{ essayText.length }} characters</span>
+    <span class="word-count">{{ getWordCount() }} words</span>
+    <span class="highlight-count" *ngIf="highlights.length > 0">{{ highlights.length }} matches highlighted</span>
+  </div>
+</div>

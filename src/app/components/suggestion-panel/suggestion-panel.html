@@ -1,0 +1,74 @@
+<div class="suggestion-panel">
+  <div class="panel-header">
+    <h2>Flag & Suggest</h2>
+    <p class="instruction-text">Enter a sentence to flag from your essay and provide an improved version.</p>
+  </div>
+
+  <div class="input-section">
+    <div class="input-group">
+      <label for="flagged-sentence">Flagged Sentence</label>
+      <textarea
+        id="flagged-sentence"
+        [(ngModel)]="flaggedSentence"
+        (input)="onFlaggedSentenceChange()"
+        placeholder="Type the sentence you want to flag from your essay..."
+        rows="3"
+        class="input-field">
+      </textarea>
+      <div class="match-indicator" [ngClass]="{ 'has-matches': highlightCount > 0, 'no-matches': highlightCount === 0 && flaggedSentence.trim().length > 0 }">
+        <span class="match-text">{{ getMatchText() }}</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="suggested-improvement">Suggested Improvement</label>
+      <textarea
+        id="suggested-improvement"
+        [(ngModel)]="suggestedImprovement"
+        (input)="onSuggestedImprovementChange()"
+        placeholder="Write your improved version here..."
+        rows="3"
+        class="input-field">
+      </textarea>
+    </div>
+  </div>
+
+  <div class="action-section">
+    <button 
+      class="apply-btn"
+      [disabled]="!canApply()"
+      (click)="applyReplacement()"
+      [title]="canApply() ? 'Replace all flagged sentences with the improvement' : 'Enter both flagged sentence and improvement to apply'">
+      <span class="btn-icon">✨</span>
+      {{ getApplyButtonText() }}
+    </button>
+
+    <button 
+      class="undo-btn"
+      [disabled]="!canUndo"
+      (click)="undoLastAction()"
+      title="Undo the last replacement">
+      <span class="btn-icon">↶</span>
+      Undo Last Change
+    </button>
+
+    <button 
+      class="clear-btn"
+      [disabled]="flaggedSentence.trim().length === 0 && suggestedImprovement.trim().length === 0"
+      (click)="clearInputs()"
+      title="Clear both input fields">
+      <span class="btn-icon">🗑️</span>
+      Clear Inputs
+    </button>
+  </div>
+
+  <div class="tips-section">
+    <h3>💡 Tips</h3>
+    <ul class="tips-list">
+      <li>Matches are case-insensitive</li>
+      <li>Type in the flagged sentence field to see real-time highlighting</li>
+      <li>All exact matches will be replaced simultaneously</li>
+      <li>Use the undo button if you make a mistake</li>
+    </ul>
+  </div>
+</div>
